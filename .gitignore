@@ -3,6 +3,11 @@
 .env.*
 !.env.example
 !.env.*.example
+# Backend secrets are intentionally explicit as well as covered by the rules above.
+/Backend/.env
+/Backend/.env.*
+!/Backend/.env.example
+!/Backend/.env.*.example
 .npmrc
 .pypirc
 .netrc

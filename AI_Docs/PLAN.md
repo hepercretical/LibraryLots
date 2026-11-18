@@ -94,19 +94,19 @@ Official starting references: [Web API overview](https://partner.steamgames.com/
 The documentation review does not establish a successful live library/metadata
 import. Verify actual endpoint responses during this segment.
 
-- [ ] Record the supported input forms: SteamID64 string and Steam Community
+- [x] Record the supported input forms: SteamID64 string and Steam Community
       /profiles/<SteamID64> or /id/<vanity> profile URL.
-- [ ] Identify public Web API methods for vanity resolution, player summaries,
+- [x] Identify public Web API methods for vanity resolution, player summaries,
       owned games and optional recent playtime; use the public host with a user
       key where required, not publisher-only access.
-- [ ] Verify the free public Steam metadata endpoint(s) for current prices,
+- [x] Verify the free public Steam metadata endpoint(s) for current prices,
       genres and any themes/tags before making downstream assumptions.
-- [ ] Record sample field shapes, response limitations, region/currency and
+- [x] Record sample field shapes, response limitations, region/currency and
       missing-price/metadata behavior without exposing keys or personal records.
-- [ ] Record which endpoints are officially documented and which are public
+- [x] Record which endpoints are officially documented and which are public
       Steam Store endpoints without a verified stable documentation contract.
       Do not describe endpoint availability as proven until checked.
-- [ ] Confirm an accessible public account for a bounded live check with the
+- [x] Confirm an accessible public account for a bounded live check with the
       human during implementation; never request a Steam password.
 
 ## Plan-02: Scaffold the local development environment
