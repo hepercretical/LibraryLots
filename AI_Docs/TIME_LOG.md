@@ -14,7 +14,7 @@ No historical Library Lots work is claimed without supporting records.
 
 ## November 16, 2026
 
-**Daily total recorded: 64 minutes (elapsed-time estimate across recorded sessions).**
+**Daily total recorded: 70 minutes (elapsed-time estimate across recorded sessions).**
 
 | Work step | Estimated minutes |
 | --- | ---: |
@@ -33,6 +33,7 @@ No historical Library Lots work is claimed without supporting records.
 | Retry key-backed Steam calls through configured and direct network paths | 8 |
 | Complete approved live response parsing and record sanitized Plan-01 evidence | 10 |
 | Review current Steam API Terms and add project-wide compliance gates | 4 |
+| Restart Plan-02 review, correct scaffold, lock dependencies and verify local services | 6 |
 
 The total is rounded from the measured active rewrite interval beginning about
 11:20 AM America/Denver on November 16. The step allocation is estimated and sums
@@ -61,3 +62,12 @@ the bounded Store request attempt, contract documentation, the human-supplied
 SteamID64 check attempt, secure configuration preparation, key-backed retry
 attempts, successful live response parsing, Terms review, compliance guidance
 and evidence updates. It excludes idle gaps.
+
+The restarted Plan-02 review adds an estimated 6 minutes from the recorded
+12:33-12:39 America/Denver interval on November 16. This includes configuration,
+tests and local service checks. The earlier interrupted scaffolding turn is
+unmeasured and excluded; no between-turn idle time is added.
+
+The subsequent Plan-02 checkbox/evidence update took less than one minute and
+is not added to the rounded daily total. It changed only completion records
+after human authorization and did not rerun implementation tests.
