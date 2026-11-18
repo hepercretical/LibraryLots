@@ -1,6 +1,7 @@
 # Local secrets and credentials (examples must contain placeholders only)
 .env
 .env.*
+.envrc
 !.env.example
 !.env.*.example
 # Backend secrets are intentionally explicit as well as covered by the rules above.
@@ -32,11 +33,13 @@ build/
 
 # Python environments, bytecode, tool caches and package output
 .venv/
+.venv*/
 venv/
 env/
 __pycache__/
 *.py[cod]
 .pytest_cache/
+pytest-cache-files-*/
 .ruff_cache/
 .mypy_cache/
 .pytype/
@@ -81,12 +84,14 @@ backups/
 *.log
 *.har
 *.stackdump
+*.dmp
 *.pid
 *.pid.lock
 *.tmp
 *.temp
 *.bak
 *.orig
+*.rej
 tmp/
 temp/
 .tools/
