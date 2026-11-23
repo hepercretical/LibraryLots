@@ -42,7 +42,7 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:5173 and activate Check local backend. Vite binds to
+Open http://127.0.0.1:5173 and use Load library. Vite binds to
 loopback, requires port 5173, and forwards /api to http://127.0.0.1:8000.
 Run the following checks from Frontend/:
 
@@ -66,6 +66,35 @@ After approved Python dependency changes, regenerate the lock with
 reinstall the local package using the commands above. Ruff is the Python linter;
 Black is the formatter. Vitest/Testing Library test the React components;
 ESLint checks JavaScript and Prettier formats frontend files only.
+
+## Public library import and dataset
+
+The Load library form sends an explicit request to the local Python service.
+Configure `STEAM_WEB_API_KEY` in the ignored Backend/.env file as described in
+Backend/.env.example. The backend makes HTTPS requests only to fixed Steam Web
+API methods, with a ten-second timeout, no redirects or automatic retries, one
+active import per process, and a 1,000-call per-process daily ceiling. A restart
+resets that ceiling, so it is not a global limit across processes or machines;
+the operator remains responsible for Steam's overall daily limit. Credentials
+are not sent to the frontend or persisted in account snapshots. Cancellation
+prevents a stale response from appearing, though a Steam request already in
+flight may finish on the backend.
+
+The Polars v1 dataset uses one row per valid AppID, with minutes and nullable
+recent playtime, import source and time, and nullable fields for future price and
+genre/theme enrichment. Duplicate AppIDs keep the first valid row; duplicates,
+malformed rows, invalid identifiers and missing lifetime playtime mark the
+import partial. Unknown minutes remain null. Store enrichment is not implemented
+in Plan-05; all such fields are unavailable until Plan-06. The synthetic fixture
+in Data/fixtures is separate from live imports and remains safe to track.
+
+On November 18, 2026, the authorized public profile was checked with the
+implemented importer. Steam's GetPlayerSummaries and GetOwnedGames endpoints
+returned 131 owned-game rows, with matching reported count. This check did not
+retrieve store prices, so region, currency and price coverage are not applicable;
+it did not establish metadata enrichment. The sandboxed attempt could not reach
+Steam; the approved unrestricted retry succeeded at 17:33:49 UTC. The live
+Steam Web API Terms and method documentation were reviewed on November 18.
 
 ## Plan-02 verification, November 16, 2026
 

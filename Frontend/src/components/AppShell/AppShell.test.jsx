@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { expect, test, vi } from 'vitest';
 import AppShell from './AppShell.jsx';
 
-test('checks health using the keyboard and disables duplicate requests', async () => {
+test('validates and loads a library, disabling duplicate requests', async () => {
   let finish;
   vi.stubGlobal(
     'fetch',
@@ -16,29 +16,54 @@ test('checks health using the keyboard and disables duplicate requests', async (
   );
   const user = userEvent.setup();
   render(<AppShell />);
-  await user.tab();
-  await user.tab();
-  await user.keyboard('{Enter}');
-  expect(screen.getByRole('button')).toBeDisabled();
-  finish({ ok: true, json: async () => ({ status: 'ok', service: 'library-lots-backend' }) });
-  expect(await screen.findByText('Backend connected.')).toBeVisible();
-  expect(screen.getByRole('button')).toBeEnabled();
+  await user.click(screen.getByRole('button', { name: 'Load library' }));
+  expect(screen.getByRole('alert')).toHaveTextContent('17-digit');
+  await user.type(screen.getByLabelText(/SteamID64 or Steam profile URL/), '76561198000000000');
+  await user.click(screen.getByRole('button', { name: 'Load library' }));
+  expect(screen.getByRole('button', { name: 'Loading…' })).toBeDisabled();
+  finish({ ok: true, json: async () => ({ name: 'Example', imported_at: 'now', games: [] }) });
+  expect(await screen.findByText(/No games were returned/)).toBeVisible();
   expect(fetch).toHaveBeenCalledTimes(1);
 });
-test.each([
-  ['network failure', () => Promise.reject(new Error('offline'))],
-  ['HTTP failure', async () => ({ ok: false })],
-  ['invalid payload', async () => ({ ok: true, json: async () => ({ status: 'ok' }) })],
-])('recovers from %s', async (_, response) => {
-  vi.stubGlobal('fetch', vi.fn(response));
+test('reports hidden details and allows retry', async () => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn().mockResolvedValue({ ok: false, json: async () => ({ detail: 'hidden' }) }),
+  );
   const user = userEvent.setup();
   render(<AppShell />);
-  await user.click(screen.getByRole('button'));
-  expect(await screen.findByText(/Unable to connect/)).toBeVisible();
-  fetch.mockResolvedValue({
-    ok: true,
-    json: async () => ({ status: 'ok', service: 'library-lots-backend' }),
-  });
-  await user.click(screen.getByRole('button'));
-  expect(await screen.findByText('Backend connected.')).toBeVisible();
+  await user.type(screen.getByLabelText(/SteamID64 or Steam profile URL/), '76561198000000000');
+  await user.click(screen.getByRole('button', { name: 'Load library' }));
+  expect(await screen.findByText(/Game details are hidden/)).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Load library' })).toBeEnabled();
+});
+
+test('switching profiles discards an old response', async () => {
+  let finish;
+  vi.stubGlobal(
+    'fetch',
+    vi
+      .fn()
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            finish = resolve;
+          }),
+      )
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ name: 'New', imported_at: 'now', games: [] }),
+      }),
+  );
+  const user = userEvent.setup();
+  render(<AppShell />);
+  const input = screen.getByLabelText(/SteamID64 or Steam profile URL/);
+  await user.type(input, '76561198000000000');
+  await user.click(screen.getByRole('button', { name: 'Load library' }));
+  await user.clear(input);
+  await user.type(input, '76561198000000001');
+  await user.click(screen.getByRole('button', { name: 'Load library' }));
+  expect(await screen.findByText('Library: New')).toBeVisible();
+  finish({ ok: true, json: async () => ({ name: 'Old', games: [] }) });
+  expect(screen.queryByText('Library: Old')).not.toBeInTheDocument();
 });

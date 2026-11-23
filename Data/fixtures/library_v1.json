@@ -1,0 +1,10 @@
+{
+  "description": "Synthetic examples only; prices are minor units, playtime is minutes.",
+  "games": [
+    {"appid": 101, "name": "Clockwork", "playtime_minutes": 120, "recent_minutes": 30, "current_price_minor": 3000, "currency": "USD", "region": "US", "price_basis": "final individual price", "genres": ["Adventure", "Puzzle"]},
+    {"appid": 102, "name": "Free Flight", "playtime_minutes": 60, "recent_minutes": null, "current_price_minor": 0, "currency": "USD", "region": "US", "price_basis": "final individual price", "genres": ["Adventure"]},
+    {"appid": 103, "name": "Unstarted", "playtime_minutes": 0, "recent_minutes": 0, "current_price_minor": 1500, "currency": "USD", "region": "US", "price_basis": "final individual price", "genres": ["Puzzle"]},
+    {"appid": 104, "name": "Unknown", "playtime_minutes": null, "recent_minutes": null, "current_price_minor": null, "currency": null, "region": null, "price_basis": null, "genres": null},
+    {"appid": 105, "name": "Tie", "playtime_minutes": 60, "recent_minutes": null, "current_price_minor": 1500, "currency": "USD", "region": "US", "price_basis": "final individual price", "genres": ["Puzzle"]}
+  ]
+}
