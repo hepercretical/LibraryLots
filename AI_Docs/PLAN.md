@@ -132,44 +132,61 @@ recorded in [DEVELOPMENT.md](../DEVELOPMENT.md#plan-02-verification-november-16-
 
 **Target:** November 17, 2026. **Dependencies:** Plan-01.
 
-- [ ] Design import, library, statistics, value ranking and unplayed recommendation
+- [x] Design import, library, statistics, value ranking and unplayed recommendation
       views with all loading/validation/empty/error/partial/success states.
-- [ ] Define navigation, profile switching, refresh and back behavior, preserving
+- [x] Define navigation, profile switching, refresh and back behavior, preserving
       useful filters without showing one profile's results as another's.
-- [ ] Define responsive tables/lists, shared controls, design tokens and readable
+- [x] Define responsive tables/lists, shared controls, design tokens and readable
       chart/table equivalents using DESIGN.md, STYLE_GUIDE.md and HUMAN.md.
-- [ ] Human reviews the proposed main journey and visual direction; record
+- [x] Human reviews the proposed main journey and visual direction; record
       feedback without claiming an unperformed review.
+
+On November 18 the human approved the proposed journey, profile-switching
+behavior, palette and responsive direction in [the design proposal](../PLAN_03_DESIGN_PROPOSAL.md).
+The proposal was subsequently expanded with a view-state matrix and concrete
+error and chart tokens. Those additions have not had a separate human review;
+no visual browser review is claimed. Text color contrast was calculated for
+the proposed primary, muted, error and secondary-chart pairings; rendered
+contrast and responsive behavior remain implementation checks.
 
 ## Plan-04: Import public Steam accounts
 
 **Target:** November 18, 2026. **Dependencies:** Plan-02, Plan-03.
 
-- [ ] Accept SteamID64 and both profile URL forms, resolve vanity names through
+- [x] Accept SteamID64 and both profile URL forms, resolve vanity names through
       Steam and preserve identity values as strings.
-- [ ] Fetch public profile/library information through backend Steam adapters.
+- [x] Fetch public profile/library information through backend Steam adapters.
       Keep requests bounded and keys backend-only.
-- [ ] Handle invalid input, unresolved users, hidden game details, unavailable
+- [x] Handle invalid input, unresolved users, hidden game details, unavailable
       responses, rate limiting and genuinely empty visible libraries distinctly.
-- [ ] Prevent duplicate refresh requests and stale-response overwrites when
+- [x] Prevent duplicate refresh requests and stale-response overwrites when
       changing accounts; provide progress, cancel/recovery and retry as appropriate.
-- [ ] Tests mock Steam responses; a separately recorded live check verifies the
+- [x] Tests mock Steam responses; a separately recorded live check verifies the
       chosen public account when credentials and connectivity are available.
+
+The November 18 live importer check and its limitations are recorded in
+[DEVELOPMENT.md](../DEVELOPMENT.md#public-library-import-and-dataset). Mocked
+backend and frontend tests passed; this check did not verify store enrichment.
 
 ## Plan-05: Build the normalized analysis dataset
 
 **Target:** November 18, 2026. **Dependencies:** Plan-04.
 
-- [ ] Define one row per AppID for the selected account with known playtime in
+- [x] Define one row per AppID for the selected account with known playtime in
       minutes, nullable recent playtime and source/import timestamps.
-- [ ] Define join fields for nullable current price, currency, region, price
+- [x] Define join fields for nullable current price, currency, region, price
       basis, genres/themes and enrichment status; preserve missing versus zero.
-- [ ] Normalize types with Polars; specify duplicate/malformed-row handling and
+- [x] Normalize types with Polars; specify duplicate/malformed-row handling and
       distinguish a partial import from a complete available response.
-- [ ] Add a documented synthetic fixture with manually checkable answers, covering
+- [x] Add a documented synthetic fixture with manually checkable answers, covering
       played/unplayed games, missing data, free games, ties and multiple genres.
-- [ ] Keep real account snapshots and generated private artifacts out of Git;
+- [x] Keep real account snapshots and generated private artifacts out of Git;
       do not silently save long-term account history.
+
+The schema, partial-import policy and fixture are described in
+[DEVELOPMENT.md](../DEVELOPMENT.md#public-library-import-and-dataset) and
+[Data/fixtures/README.md](../Data/fixtures/README.md). Automated dataset tests
+passed on November 18; prices and genres await Plan-06 enrichment.
 
 ## Plan-06: Enrich owned games with Steam metadata
 

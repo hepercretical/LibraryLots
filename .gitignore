@@ -13,14 +13,32 @@
 .pypirc
 .netrc
 _netrc
+.authinfo
+.authinfo.gpg
+.npmrc.local
+.pypirc.local
 .python-version.local
 secrets/
+.secrets/
+.credentials/
 .aws/
 .ssh/
+credentials.json
+service-account*.json
+id_rsa
+id_ed25519
 *.pem
 *.key
 *.p12
 *.pfx
+*.jks
+*.keystore
+
+# Local overrides may contain credentials or machine-specific settings.
+*.local
+*.local.*
+!.env.example
+!.env.*.example
 
 # React, Vite and Node dependencies/generated output
 node_modules/
@@ -30,6 +48,8 @@ build/
 *.tsbuildinfo
 .eslintcache
 .stylelintcache
+.parcel-cache/
+.turbo/
 
 # Python environments, bytecode, tool caches and package output
 .venv/
@@ -46,6 +66,7 @@ pytest-cache-files-*/
 .hypothesis/
 .tox/
 .nox/
+.cache/uv/
 *.egg-info/
 .eggs/
 pip-wheel-metadata/
@@ -61,6 +82,8 @@ coverage.xml
 junit.xml
 test-results/
 playwright-report/
+blob-report/
+.nyc_output/
 
 # Local Steam imports, caches, exports and account-specific plots
 # Keep source datasets and synthetic Data/fixtures/ eligible for Git.
@@ -75,6 +98,19 @@ playwright-report/
 /Backend/exports/
 /Backend/plots/
 /exports/
+# Local databases and their journal files are not project source data.
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+*.sqlite3-journal
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
 private-artifacts/
 private-fixtures/
 backups/
